@@ -1,0 +1,31 @@
+networks:
+    r_proxy:
+        external: true
+
+services:
+    nginx-mirror:
+        build: nginx-mirror
+        image: nginx-mirror
+        container_name: nginx-mirror
+        restart: always
+        volumes:
+            - /path/to/arch-mirror:/mnt/mirror/arch
+            - /path/to/apt-mirror/mirror:/mnt/mirror/debian
+        networks:
+            - r_proxy
+
+    apt-mirror:
+        build: apt-mirror
+        image: apt-mirror
+        container_name: apt-mirror
+        restart: always
+        volumes:
+            - /path/to/apt-mirror:/mnt/mirror
+
+    arch-mirror:
+        build: arch-mirror
+        image: arch-mirror
+        container_name: arch-mirror
+        restart: always
+        volumes:
+            - /path/to/arch-mirror:/mnt/mirror
